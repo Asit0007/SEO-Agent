@@ -19,7 +19,7 @@ measurement (P0), then titles, meta, previews and internal links. None of it nee
 | # | Area | Finding | Evidence | Impact | Priority |
 |---|---|---|---|---|---|
 | 1 | Measurement | No analytics on any page; Search Console status unknown | No gtag/Plausible/Cloudflare-insights/verification tag in any page; no access given | Nothing can be measured or diagnosed, including whether Google has indexed the posts | **P0** |
-| 2 | Indexing | Blog pages absent from the one search index checked; the GitHub repo shows instead | WebSearch `blogs.asitminz.com`, 2026-10-05: top result `github.com/Asit0007/Blogs`, no blog URL | Possibly not indexed or not ranking (*requires verification* in Search Console) | **P0** |
+| 2 | Indexing | Blog pages absent from the one search index checked; the GitHub repo shows instead | WebSearch `blogs.asitminz.com`, 2026-10-05: top result `github.com/Asit0007/Blogs`, no blog URL | **Verified 2026-10-05: 0 of 6 pages indexed** (URL Inspection); the sitemap is now submitted | **P0** |
 | 3 | Crawl | No XML sitemap | `/sitemap.xml` → 404; robots.txt (Cloudflare-managed, comments only) has no `Sitemap:` line | Slower discovery of new posts; nothing to submit in Search Console | **P0** |
 | 4 | Duplicates | `http://` serves the page with 200 instead of redirecting to https | `curl http://blogs.asitminz.com/` → 200, 19 KB | Two crawlable copies of every URL; split signals | P1 |
 | 5 | Canonical | No `rel=canonical` on any of the 4 posts (home and about have one) | page snapshots | Combined with #4 and `/index.html` duplicates, Google picks the canonical itself | P1 |
