@@ -1,0 +1,43 @@
+# Copy-paste-ready metadata. `make lint P=<slug>` checks it against the limits in CLAUDE.md.
+# Keep only the tables that apply and delete the rest. Add a table per page, video or listing.
+# Every <<FILL>> left in is a lint error.
+
+[[website]]
+name = "<<FILL: page name>>"
+url = "<<FILL>>"
+primary_keyword = "<<FILL>>"
+title = "<<FILL: ~50-60 chars, keyword early>>"
+meta_description = "<<FILL: ~150-160 chars, a reason to click>>"
+h1 = "<<FILL>>"
+slug = "<<FILL: short-hyphenated>>"
+
+[[youtube]]
+name = "<<FILL: video name>>"
+primary_keyword = "<<FILL>>"
+title = "<<FILL: <=100 chars, hook in the first ~60>>"
+duration_sec = 600
+description = """
+<<FILL: line 1 = keyword + hook>>
+<<FILL: line 2 = the promise>>
+
+0:00 <<FILL>>
+1:30 <<FILL>>
+4:00 <<FILL>>
+
+Sources:
+<<FILL>>
+
+#<<FILL>> #<<FILL>> #<<FILL>>
+"""
+tags = ["<<FILL>>"]
+thumbnail_text = "<<FILL: 3-5 words>>"
+pinned_comment = "<<FILL: a question>>"
+
+[[amazon]]
+name = "<<FILL: format, e.g. paperback>>"
+title = "<<FILL: as on the cover>>"
+subtitle = "<<FILL: benefit-led>>"
+series = ""
+description = """<<FILL: <=4000 chars; KDP's limited HTML>>"""
+keywords = ["<<FILL>>", "", "", "", "", "", ""]
+categories = ["<<FILL: full browse path>>"]

@@ -1,0 +1,56 @@
+# Proposed titles and descriptions for blogs.asitminz.com (2026-10-05).
+# Keep each hook and add the topic a reader would search for. Voice per Blogs/BRAND.md: plain, no hype.
+# Google shows the site name separately, so posts drop the " — Asit Minz" suffix where it pushes past ~60.
+
+[[website]]
+name = "home (unchanged title)"
+url = "https://blogs.asitminz.com/"
+primary_keyword = "AI systems"
+title = "Asit Minz — Building & explaining AI systems"
+meta_description = "I build AI systems solo under hard constraints and write down what actually happens when they run. Production experience, not tutorials."
+h1 = "Building & explaining AI systems, from an operator's chair"
+
+[[website]]
+name = "about"
+url = "https://blogs.asitminz.com/about/"
+primary_keyword = "Asit Minz"
+title = "About Asit Minz — Cloud engineer building AI systems"
+meta_description = "Four years running enterprise cloud ops, now building AI systems solo under hard constraints and writing down what happens. The story and the work."
+h1 = "(unchanged)"
+slug = "about"
+
+[[website]]
+name = "quantbot"
+url = "https://blogs.asitminz.com/posts/quantbot/"
+primary_keyword = "trading bot"
+title = "The Backtest That Lied: Two Bugs in a BTC Trading Bot"
+meta_description = "A backtest said +90.7% a year. The real figure was +13.7%. How two cancelling bugs hid in a BTC futures bot, and how I proved the live code matches."
+h1 = "The Backtest That Lied"
+slug = "quantbot"
+
+[[website]]
+name = "cloudpulse"
+url = "https://blogs.asitminz.com/posts/cloudpulse/"
+primary_keyword = "AWS Free Tier"
+title = "Engineering for Zero: An AWS Free Tier Tracker in Go"
+meta_description = "CloudPulse tracks AWS Free Tier usage from one Go binary, built under one rule: it must never cost a cent to run. How that rule shaped the stack."
+h1 = "Engineering for Zero"
+slug = "cloudpulse"
+
+[[website]]
+name = "crypto-dex"
+url = "https://blogs.asitminz.com/posts/crypto-dex/"
+primary_keyword = "Moralis"
+title = "The SDK That Vanished: Migrating From Moralis to wagmi"
+meta_description = "My DEX had no backend because a hosted Web3 API did the reads. Then the vendor shut it off. Moving to wagmi and viem without adding a server."
+h1 = "The SDK That Vanished"
+slug = "crypto-dex"
+
+[[website]]
+name = "magento-deploykit"
+url = "https://blogs.asitminz.com/posts/magento-deploykit/"
+primary_keyword = "Magento 2"
+title = "Bare Server to Magento 2 in 7 Scripts: Varnish + NGINX"
+meta_description = "Seven idempotent Bash scripts take a bare server to Magento 2 behind Varnish, NGINX and PHP-FPM, plus six lessons that each cost hours to learn."
+h1 = "From Bare Server to Production Magento Stack in 7 Scripts"
+slug = "magento-deploykit"

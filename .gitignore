@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+# Raw captures of other people's pages, listings and videos: research input, not ours to publish.
+projects/*/research/
+# Client and owner analytics exports.
+projects/*/exports/
+# Owner-specific context: identities, sibling projects, local paths.
+CLAUDE.local.md
