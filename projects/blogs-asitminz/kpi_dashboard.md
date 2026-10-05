@@ -17,4 +17,5 @@ Created 2026-10-05. Review weekly for the first 30 days, then monthly.
 ## Log
 | Date | What changed | What moved |
 |---|---|---|
-| 2026-10-05 | Audit; no changes made | — |
+| 2026-10-05 | Audit | — |
+| 2026-10-05 | Blogs `452e3db` on branch `seo/7-day-fixes` (awaiting merge): sitemap, robots.txt, canonicals, titles and meta (#2, #6, #7). Repo description and homepage set (#12) | — |
