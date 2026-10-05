@@ -20,3 +20,4 @@ Created 2026-10-05. Review weekly for the first 30 days, then monthly.
 | 2026-10-05 | Audit | — |
 | 2026-10-05 | Blogs `452e3db` on branch `seo/7-day-fixes` (awaiting merge): sitemap, robots.txt, canonicals, titles and meta (#2, #6, #7). Repo description and homepage set (#12) | — |
 | 2026-10-05 | Merged to Blogs `main` (452e3db). Owner: Always Use HTTPS on (http → 301 verified), Web Analytics on, Search Console Domain property `asitminz.com` verified (DNS TXT), sitemap read: Success, 6 discovered | Indexed 0/6: confirms finding #2 |
+| 2026-10-05 | Indexing requested for all 6 URLs (URL Inspection, each confirmed "added to a priority crawl queue"). Home, about, quantbot, cloudpulse, magento now "Discovered – currently not indexed"; crypto-dex still "unknown to Google" | re-check ~2026-10-12 |
