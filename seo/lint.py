@@ -40,8 +40,25 @@ def _seconds(ts: str) -> int:
     return total
 
 
+# Small words Amazon ignores in matching; repeating them across fields costs nothing worth flagging.
+STOPWORDS = {"for", "and", "the", "with", "from", "your", "you", "are", "into", "its"}
+# Category levels that say nothing about the subject.
+GENERIC_LEVELS = {"nonfiction", "fiction", "books", "kindle store", "kindle ebooks"}
+
+
 def _words(text: str) -> set[str]:
-    return {w for w in re.findall(r"[a-z0-9']+", text.lower()) if len(w) > 2}
+    return {w for w in re.findall(r"[a-z0-9']+", text.lower()) if len(w) > 2 and w not in STOPWORDS}
+
+
+def _category_words(cats: list[str]) -> set[str]:
+    """Words of each category's most specific named level (KDP: don't repeat category words)."""
+    out = set()
+    for cat in cats:
+        levels = [lv.strip() for lv in re.split(r"[›>]", cat) if lv.strip()]
+        named = [lv for lv in levels if lv.lower() not in GENERIC_LEVELS]
+        if named:
+            out |= _words(named[-1])
+    return out
 
 
 def _has_keyword(text: str, keyword: str) -> bool:
@@ -151,6 +168,7 @@ def lint_amazon(item: dict) -> list[tuple[str, str]]:
     elif len([k for k in kws if k.strip()]) < KDP_KEYWORD_BOXES:
         out.append(("warn", f"{len([k for k in kws if k.strip()])} of {KDP_KEYWORD_BOXES} keyword boxes used"))
     title_words = _words(title + " " + sub)
+    cat_words = _category_words(item.get("categories", []))
     seen: dict[str, int] = {}
     for i, kw in enumerate(kws, 1):
         if len(kw) > KDP_KEYWORD_MAX:
@@ -162,6 +180,8 @@ def lint_amazon(item: dict) -> list[tuple[str, str]]:
         for w in _words(kw):
             if w in title_words:
                 out.append(("warn", f"keyword box {i} repeats '{w}' from the title/subtitle"))
+            elif w in cat_words:
+                out.append(("warn", f"keyword box {i} repeats '{w}' from a category"))
             elif w in seen:
                 out.append(("warn", f"'{w}' appears in keyword boxes {seen[w]} and {i}"))
             seen.setdefault(w, i)

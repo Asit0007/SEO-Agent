@@ -154,6 +154,17 @@ class AmazonLintTests(unittest.TestCase):
         self.assertTrue(any("boxes 1 and 2" in m for _, m in out))
 
 
+    def test_category_words_and_stopwords(self):
+        out = lint.lint_amazon({"title": "Trace It", "subtitle": "Practice for Ages 3-5",
+                                "keywords": ["handwriting book for kids", "fun and easy"],
+                                "categories": ["Children's › Reading & Writing › Handwriting",
+                                               "Children's › Basic Concepts › Alphabet › Nonfiction"]})
+        msgs = " ".join(m for _, m in out)
+        self.assertIn("repeats 'handwriting' from a category", msgs)
+        self.assertNotIn("'for'", msgs)
+        self.assertNotIn("'and'", msgs)
+
+
 class WebsiteAndFileTests(unittest.TestCase):
     def test_website(self):
         ok = {"title": "Zero-Permission Apps: How Phones Get Hijacked", "primary_keyword": "zero-permission apps",

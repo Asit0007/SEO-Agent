@@ -202,9 +202,18 @@ top 10 competitors' titles, subtitles, categories, BSR, prices, review counts an
 - **Series** and Author Central (bio, photo or pen-name brand).
 - **Description:** at most 4,000 characters, using KDP's limited HTML. Lead with the hook and the
   benefits, then what's inside, who it's for, and an honest call to action.
-- **Backend keywords:** 7 boxes of up to 50 characters each. Don't repeat words already in the title,
-  don't name other brands, authors or trademarks, and don't use claims like "free", "#1" or "new".
-  Phrases in reader word order beat comma-separated single words.
+- **Backend keywords:** 7 boxes of up to 50 characters each. KDP's own page (G201298500, read
+  2026-10-07) says: don't repeat what the title, contributors or **categories** already say; no other
+  authors, brands you don't own, Amazon program names, quality claims, time-sensitive words ("new",
+  "on sale") or quotation marks; "single words work better than phrases, and specific words work
+  better than general ones", and multi-word terms go in natural order. So fill the boxes with
+  distinct, specific words and short natural phrases, each word used once across all seven.
+  `make lint` checks repeats against the title, subtitle and the most specific category level.
+- **Locked after launch:** a paperback's title, subtitle and primary author can be edited only in
+  the 72 hours after it first goes live (an edit sends it back to In Review), then never; a change
+  after that needs a new edition. Description, keywords, categories, reading age and price can change
+  any time. Nothing can be edited while it is In Review (G200736410, read 2026-10-07). So settle the
+  title and subtitle **before** upload: they are the strongest search field and the only one that locks.
 - **Categories:** up to **3 per format**, chosen in the KDP dashboard. Requesting extra categories
   from support ended in 2023.
 - **Cover:** readable as a thumbnail, genre-appropriate, and visibly different from competitors.
@@ -274,7 +283,8 @@ action; internal links; cite authoritative sources; a refresh date on anything t
 | YouTube hashtags | First 3 show above the title; more than 60 and YouTube ignores all of them | 2026-10-05 (secondary sources) | support.google.com/youtube (hashtags) |
 | YouTube chapters | First at 0:00, at least 3, each at least 10 s | 2026-10-05 (secondary sources) | support.google.com/youtube (chapters) |
 | KDP categories | Up to 3 per format, chosen in the dashboard; no support requests since 2023 | 2026-10-05 | KDP help; kboards thread |
-| KDP keywords | 7 boxes, ≤ 50 characters each | 2026-10-05 (secondary sources) | kdp.amazon.com help G201298500 |
+| KDP keywords | 7 boxes; no words from title, contributors or categories; single specific words beat phrases. The 50-character figure is from secondary sources (the page only says "keep an eye on the character limit") | 2026-10-07 | kdp.amazon.com/en_US/help/topic/G201298500 |
+| KDP locked details (paperback) | Title, subtitle, primary author: editable only within 72 h of first going live, then locked. Description, keywords, categories, reading age, price: any time. No edits while In Review | 2026-10-07 | kdp.amazon.com/en_US/help/topic/G200736410 |
 | KDP title + subtitle | Under 200 characters combined | 2026-10-05 | kdp.amazon.com/en_US/help/topic/G201097560 |
 | KDP description | ≤ 4,000 characters | 2026-10-05 (secondary sources) | kdp.amazon.com help |
 
