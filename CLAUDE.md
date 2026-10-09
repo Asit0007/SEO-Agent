@@ -67,7 +67,9 @@ Code loads it automatically. Start from those drafts; don't start from nothing.
 | WebSearch, WebFetch | SERPs, competitor pages, platform docs, People Also Ask (as seen in results) |
 | Chrome browser tools (the owner's own browser) | Google, YouTube and Amazon search pages and **autocomplete**, Amazon product pages and Best Sellers lists (Amazon often blocks WebFetch), YouTube competitor videos, PageSpeed Insights (`pagespeed.web.dev`), Rich Results Test |
 | `make page URL=…` | On-page and technical snapshot of one URL: status, redirects, title, meta, robots, canonical, headings, hreflang, JSON-LD types, image alts, links, robots.txt, sitemap |
-| `make lint P=<slug>` | Checks `metadata.toml` against the platform limits below |
+| `make lint P=<slug>` | Checks `metadata.toml` against the platform limits below, plus a YouTube title + thumbnail pairing (no shared words) and whether the primary keyword survives a phone feed's ~40-character cut |
+| `make outliers F=<json> [MIN=2]` | Ranks YouTube videos by views over **their own channel's median** (≥ 4 videos per channel), so a niche is read by ideas, not channel size. Input: `yt-dlp --flat-playlist -J --playlist-end 30 "<channel>/videos"` (installed in `~/.local/bin`, a venv) or a list of `{channel, title, views, url}`. Public listings only, never logged in |
+| `make retention F=<csv> DUR=<sec> [SRT=<file>]` | Reads a YouTube Studio "Audience retention" export: hook leak (first 30 s), cliffs (with what was said, from the captions) and the steady slide per minute |
 | Owner's exports | Search Console, GA4, YouTube Studio, KDP Reports, Amazon Ads; ask for CSVs or screenshots |
 
 You do not have Ahrefs, SEMrush, Moz, Screaming Frog, TubeBuddy, VidIQ, Helium 10, Publisher Rocket,
@@ -94,17 +96,19 @@ projects/<slug>/             one folder per engagement (make new P=<slug>)
   kpi_dashboard.md           KPIs, baseline, target, source, review cadence
   research/                  dated raw captures (gitignored: other people's content)
 templates/                   skeletons; <<FILL>> marks what you replace
-seo/                         Python stdlib: page snapshot, metadata lint, scaffold
+seo/                         Python stdlib: page snapshot, metadata lint, scaffold, YouTube outliers + retention
 ```
 
 ```bash
 make new P=<slug>            # scaffold projects/<slug>/ (refuses to overwrite)
 make page URL=https://…      # snapshot one URL (add JSON=1 for JSON)
 make lint P=<slug>           # check projects/<slug>/metadata.toml; exit 1 on any error
+make outliers F=<json>       # niche outliers by own-channel median multiple (MIN=2.0)
+make retention F=<csv> DUR=<sec> [SRT=<srt>]   # hook leak, cliffs, slide
 make test                    # unit tests, no network
 ```
 
-Python 3.11+ standard library only; there is nothing to install.
+Python 3.11+ standard library only. `yt-dlp` (for collecting channel lists) is the one outside tool.
 
 ---
 
@@ -165,7 +169,9 @@ pages with intro copy, faceted navigation (canonical or noindex on filter combin
 
 **Research:** YouTube and Google autocomplete (in the browser), Google Trends, competitor titles and
 descriptions, the "People also watched" and search-result formats. Classify intent: informational,
-entertainment, how-to, review, news-story.
+entertainment, how-to, review, news-story. For competitors, `make outliers` shows which of their videos
+beat their own channel's median, and by how much: study those (the ideas), never their copy or art.
+Naming a title's formula is a judgement about its words, not a claim about why it worked.
 
 **Metadata:**
 - **Title:** front-load the keyword, add curiosity, and keep the hook in the first ~60 characters
@@ -186,7 +192,8 @@ story structure. Ask for likes and subscriptions once the viewer has had value, 
 comments.
 
 **Analytics:** impressions CTR, average view duration and percentage viewed, the retention curve and
-its drop-off points, traffic sources and returning viewers. Use YouTube Studio's "Test & compare" to
+its drop-off points (`make retention`: under 25 points lost in the first 30 s is healthy; name the
+single biggest leak and one change, not a list), traffic sources and returning viewers. Use YouTube Studio's "Test & compare" to
 A/B test thumbnails and titles.
 
 ## Amazon book module

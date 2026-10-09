@@ -14,6 +14,7 @@ META_MAX, META_MIN = 160, 70
 
 # YouTube
 YT_TITLE_MAX, YT_TITLE_VISIBLE = 100, 60
+YT_TITLE_MOBILE = 40  # about what a phone home feed shows before "..."
 YT_DESC_MAX = 5000
 YT_TAGS_MAX_CHARS = 500
 YT_HASHTAGS_IGNORED_ABOVE = 60
@@ -110,6 +111,9 @@ def lint_youtube(item: dict) -> list[tuple[str, str]]:
         out.append(("warn", f"title {len(title)} chars; the hook should sit in the first ~{YT_TITLE_VISIBLE}"))
     if kw and title and not _has_keyword(title[:YT_TITLE_VISIBLE], kw):
         out.append(("warn", f"primary keyword '{kw}' not in the first {YT_TITLE_VISIBLE} chars of the title"))
+    elif kw and len(title) > YT_TITLE_MOBILE and not _has_keyword(title[:YT_TITLE_MOBILE], kw):
+        shown = title[:YT_TITLE_MOBILE].rsplit(" ", 1)[0]
+        out.append(("warn", f"a phone feed shows about '{shown}...', which drops the primary keyword '{kw}'"))
     if len(desc) > YT_DESC_MAX:
         out.append(("error", f"description {len(desc)} chars > {YT_DESC_MAX}"))
     first_lines = " ".join(desc.strip().splitlines()[:2])
@@ -145,6 +149,10 @@ def lint_youtube(item: dict) -> list[tuple[str, str]]:
     thumb = item.get("thumbnail_text", "")
     if thumb and len(thumb.split()) > 5:
         out.append(("warn", f"thumbnail text is {len(thumb.split())} words; 3-5 read at phone size"))
+    shared = sorted(_words(thumb) & _words(title)) if thumb and title else []
+    if shared:
+        # Title and thumbnail are read together; repeating words wastes half the click surface.
+        out.append(("warn", f"thumbnail text repeats the title ({', '.join(shared)}); make it say what the title does not"))
     return out
 
 

@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest import mock
 
 from seo import __main__ as cli
-from seo import lint, page
+from seo import lint, page, youtube
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -121,6 +121,50 @@ class YouTubeLintTests(unittest.TestCase):
         self.assertIn("not in the first 60", msgs)
         self.assertIn("first two lines", msgs)
 
+
+    def test_phone_feed_cut_and_thumbnail_pairing(self):
+        base = {"description": self.DESC, "duration_sec": 600, "primary_keyword": "zero permission app"}
+        late = lint.lint_youtube({**base, "title": "The Android flaw that let a zero permission app in"})
+        self.assertTrue(any("phone feed" in m for _, m in late))
+        early = lint.lint_youtube({**base, "title": "Zero permission app: the Android flaw that let it in"})
+        self.assertFalse(any("phone feed" in m for _, m in early))
+        pair = {**base, "title": "Zero permission app hijacked this phone"}
+        dup = lint.lint_youtube({**pair, "thumbnail_text": "PHONE HIJACKED"})
+        self.assertTrue(any("repeats the title (hijacked, phone)" in m for _, m in dup))
+        self.assertEqual(lint.lint_youtube({**pair, "thumbnail_text": "NO TAP NEEDED"}), [])
+
+
+class YouTubeResearchTests(unittest.TestCase):
+    def test_outliers_rank_by_own_channel_median_and_skip_thin_channels(self):
+        rows = [{"channel": "Big", "title": f"b{i}", "views": v} for i, v in enumerate([1_000_000, 900_000, 1_100_000, 1_000_000, 2_500_000])]
+        rows += [{"channel": "Small", "title": f"s{i}", "views": v} for i, v in enumerate([10_000, 12_000, 8_000, 10_000, 90_000])]
+        rows += [{"channel": "Thin", "title": "t", "views": 5_000_000}]
+        found, thin = youtube.outliers(rows, 2.0)
+        self.assertEqual([(r["channel"], r["multiple"]) for r in found], [("Small", 9.0), ("Big", 2.5)])
+        self.assertEqual(thin, [("Thin", 1)])
+
+    def test_rows_from_ytdlp_flat_playlist(self):
+        data = {"channel": "Chan", "entries": [{"id": "abc", "title": "A", "view_count": 7, "duration": 61},
+                                               {"id": "def", "title": "no views yet"}]}
+        self.assertEqual(youtube.rows_from_ytdlp(data),
+                         [{"channel": "Chan", "title": "A", "views": 7, "url": "https://www.youtube.com/watch?v=abc", "duration": 61}])
+
+    def test_retention_hook_leak_cliff_and_quote(self):
+        # Percent axis on a 600 s video: 100 -> 70 in the first 30 s (5%), then a cliff at 50% (300 s).
+        curve = [(0, 100), (5, 70), (10, 68), (20, 66), (30, 64), (40, 62), (50, 61), (55, 50),
+                 (60, 49), (70, 47), (80, 45), (90, 43), (97, 41), (100, 20)]
+        with tempfile.TemporaryDirectory() as d:
+            csv_path, srt_path = Path(d) / "r.csv", Path(d) / "c.srt"
+            csv_path.write_text("Video position (%),Audience retention (%)\n" + "\n".join(f"{x},{y}" for x, y in curve))
+            srt_path.write_text("1\n00:04:58,000 --> 00:05:03,000\nNow the sponsor.\n\n2\n00:06:00,000 --> 00:06:04,000\nLater.\n")
+            r = youtube.retention(youtube.load_retention_csv(csv_path), 600, youtube.load_srt(srt_path))
+        self.assertEqual(r["hook_leak"], 30.0)
+        self.assertEqual(r["hook_verdict"], "leaking")
+        self.assertEqual(r["cliffs"][0]["at_sec"], 300.0)
+        self.assertEqual(r["cliffs"][0]["said"], "Now the sponsor.")
+        self.assertFalse(any(c["at_sec"] >= 570 for c in r["cliffs"]), "the end-screen drop is not a cliff")
+        with self.assertRaises(ValueError):
+            youtube.retention([(x, y) for x, y in curve])  # percent axis without a duration
 
 class AmazonLintTests(unittest.TestCase):
     def test_clean_listing_passes(self):
