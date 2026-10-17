@@ -28,9 +28,9 @@ Leave the "$0/month" correction in `posts/quantbot/` alone (`Blogs/CLAUDE.md`).
 ## 7-day plan (quick wins)
 - [ ] #1 Search Console Domain property (15 min)
 - [ ] #4 Cloudflare Web Analytics, #5 Always Use HTTPS (10 min)
-- [ ] #2 sitemap + robots.txt, #6 canonicals, #7 titles and meta. One commit, which Claude can prepare for review
+- [x] #2 sitemap + robots.txt, #6 canonicals, #7 titles and meta (Blogs `452e3db`, 2026-10-05; `/books/` in the sitemap since 2026-10-15). Checked live 2026-10-17
 - [ ] #3 Submit the sitemap and request indexing
-- [ ] #12 Repo description and homepage
+- [x] #12 Repo description and homepage (checked 2026-10-17)
 
 ## 30-day plan
 - [ ] #8 OG images and tags; #9 JSON-LD; #10 internal links; #11 image fixes
